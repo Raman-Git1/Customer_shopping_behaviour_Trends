@@ -96,7 +96,6 @@ This approach separates **data preparation**, **descriptive analysis**, and **bu
 | [exploratory_data_analysis_using_sweetviz.html](exploratory_data_analysis_using_sweetviz.html) | Standalone Sweetviz 2.3.3 profile of the raw dataset: distributions, missingness, associations, and correlations. |
 | [customer_shopping_behavior_dashboard.pbix](customer_shopping_behavior_dashboard.pbix) | Power BI dashboard package for interactive reporting. Open it with Power BI Desktop. |
 | [customer_behaviour_dashboard.jpeg](customer_behaviour_dashboard.jpeg) | Static dashboard image showing the report layout, KPIs, filters, and primary visual findings. |
-| `.DS_Store` | macOS Finder metadata; not part of the analysis. It can be excluded from version control. |
 
 ## Data Preparation
 
