@@ -66,7 +66,6 @@ flowchart LR
 | [customer_shopping_behaviour.sql](customer_shopping_behaviour.sql) | Ten SQL business questions covering revenue, discounts, products, shipping, subscriptions, loyalty, and age groups. |
 | [exploratory_data_analysis_using_sweetviz.html](exploratory_data_analysis_using_sweetviz.html) | Standalone Sweetviz 2.3.3 profile of the raw dataset: distributions, missingness, associations, and correlations. |
 | [customer_shopping_behavior_dashboard.pbix](customer_shopping_behavior_dashboard.pbix) | Power BI dashboard package for interactive reporting. Open it with Power BI Desktop. |
-| `.DS_Store` | macOS Finder metadata; not part of the analysis. It can be excluded from version control. |
 
 ## Data Preparation
 
