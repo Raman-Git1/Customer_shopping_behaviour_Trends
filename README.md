@@ -56,6 +56,14 @@ flowchart LR
     A --> F[Sweetviz profiling report]
 ```
 
+## Dashboard Preview
+
+The Power BI dashboard brings the analysis together through headline KPIs, subscription and category views, age-group comparisons, and interactive filters for customer behavior exploration.
+
+![Customer Shopping Behaviour Dashboard](customer_behaviour_dashboard.jpeg)
+
+Open [customer_behaviour_dashboard.jpeg](customer_behaviour_dashboard.jpeg) for the full-resolution preview, or use [customer_shopping_behavior_dashboard.pbix](customer_shopping_behavior_dashboard.pbix) to explore the report interactively in Power BI Desktop.
+
 ## File Guide
 
 | File | Purpose |
@@ -66,6 +74,8 @@ flowchart LR
 | [customer_shopping_behaviour.sql](customer_shopping_behaviour.sql) | Ten SQL business questions covering revenue, discounts, products, shipping, subscriptions, loyalty, and age groups. |
 | [exploratory_data_analysis_using_sweetviz.html](exploratory_data_analysis_using_sweetviz.html) | Standalone Sweetviz 2.3.3 profile of the raw dataset: distributions, missingness, associations, and correlations. |
 | [customer_shopping_behavior_dashboard.pbix](customer_shopping_behavior_dashboard.pbix) | Power BI dashboard package for interactive reporting. Open it with Power BI Desktop. |
+| [customer_behaviour_dashboard.jpeg](customer_behaviour_dashboard.jpeg) | Image preview of the Power BI dashboard, including KPI cards, filters, category visuals, and age-group comparisons. |
+| `.DS_Store` | macOS Finder metadata; not part of the analysis. It can be excluded from version control. |
 
 ## Data Preparation
 
