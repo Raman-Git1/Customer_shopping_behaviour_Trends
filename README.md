@@ -4,46 +4,56 @@
 
 ## Executive Summary
 
-This project examines customer demographics, product demand, purchasing frequency, discounts, reviews, shipping, loyalty, and subscriptions. The analysis is designed to help a retail team answer a simple question: **where should merchandising, retention, and promotion effort be focused?**
+This project is a descriptive retail analytics study of customer demographics, product demand, purchase frequency, discounts, reviews, shipping, loyalty, and subscriptions. It combines Python-based data preparation, Sweetviz profiling, PostgreSQL-style SQL analysis, and a Power BI dashboard to move from raw customer records to an interpretable business view.
+
+The dataset contains **3,900 records**, **18 raw fields**, and **$233,081** in recorded purchase value. The analysis shows a concentrated clothing-led product mix, a male-skewed customer base, broadly similar basket values across most segments, and measurable but modest differences associated with discounts, subscriptions, seasons, and shipping methods.
 
 ### Headline signals
 
 | Signal | Observation | Business reading |
 | --- | ---: | --- |
-| Recorded purchase value | **$233,081** across 3,900 records | A useful baseline for comparing segments and categories |
-| Average purchase amount | **$59.76** | A practical benchmark for high-value customer and promotion analysis |
-| Customer mix | **2,652 male (68%)**, 1,248 female (32%) | Current demand is male-skewed; growth plans should test whether this reflects the market or acquisition mix |
-| Category mix | **Clothing: 1,737 purchases (45%)** | Clothing is the volume anchor and deserves the strongest availability and assortment attention |
-| Subscriber base | **1,053 subscribers (27%)** | Subscription is a meaningful but minority behavior; conversion and retention deserve separate analysis |
-| Ratings quality | **37 missing ratings** in the raw data | Category-level median imputation keeps the analysis usable, but rating-based decisions should be treated cautiously |
+| Recorded purchase value | **$233,081** across 3,900 records | The financial baseline used throughout the segment analysis |
+| Average purchase amount | **$59.76** | Purchase values are tightly centered around a consistent mid-market basket |
+| Customer mix | **2,652 male (68%)**, 1,248 female (32%) | The observed customer base is materially male-skewed |
+| Category mix | **Clothing: 1,737 purchases (44.5%)** | Clothing contributes 44.7% of recorded revenue and is the largest demand pool |
+| Subscriber base | **1,053 subscribers (27%)** | Subscription participation is meaningful, but most records are non-subscribed |
+| Data completeness | **37 missing ratings (0.9%)** | The only material missing-value issue identified in the raw profile |
 
-These are descriptive findings from the supplied data, not causal claims. They describe this sample and should be validated against margin, customer-level history, inventory, and campaign data before commercial decisions are made.
+These are descriptive findings from the supplied data. They show association and distribution, not causal impact, profitability, customer lifetime value, or retention over time.
 
-## Business Insights
+## Business Findings
 
-### 1. Protect the volume engine, then improve its value
+### 1. Clothing is the core revenue contributor
 
-Clothing represents nearly half of all purchases, followed by accessories at 32%. This makes clothing the clearest place to protect availability, reduce stock-outs, and test cross-sell journeys into accessories. Volume alone does not prove profitability, so the next useful cut is category revenue and margin rather than order count only.
+Clothing accounts for **1,737 records (44.5%)** and **$104,264 (44.7%)** of recorded purchase value. Accessories follow with **1,240 records (31.8%)** and **$74,200 (31.8%)**. Footwear contributes 15.5% of revenue, while outerwear contributes 7.9%. The close alignment between purchase share and revenue share indicates that category mix, rather than large differences in basket value, is the main driver of revenue concentration.
 
-### 2. Treat customer mix as a growth question
+### 2. Female customers have a slightly higher average purchase value
 
-The dataset is 68% male and 32% female. This can indicate strong product-market fit with male shoppers, an acquisition-channel effect, or an underdeveloped female assortment. Marketing and merchandising teams should compare conversion, average spend, repeat behavior, and subscription adoption by gender before deciding whether to optimize the existing mix or broaden it.
+Male customers generate **$157,890 (67.7%)** from 2,652 records, with an average purchase value of **$59.54**. Female customers generate **$75,191 (32.3%)** from 1,248 records, with an average of **$60.25**. The female average is approximately **$0.71 higher**, but the male revenue lead is explained primarily by the larger number of male records, not a higher male basket value.
 
-### 3. Build a promotion strategy around incremental value
+### 3. Discounted purchases have a modestly lower basket value
 
-The raw file contains both `Discount Applied` and `Promo Code Used`, and they match in every row. The cleaned file removes the duplicate field to avoid double-counting the same signal. The SQL analysis identifies customers who used a discount while spending at least the overall average and ranks products by discount rate. The commercial test is whether discounts create incremental revenue or simply subsidize purchases that would have happened anyway.
+There are **1,677 discounted records (43.0%)** and 2,223 non-discounted records (57.0%). Discounted records average **$59.28**, compared with **$60.13** for non-discounted records, a difference of **$0.85**. Discounted purchases contribute 42.7% of recorded revenue, slightly below their 43.0% volume share. This is an observed association only; the data does not show whether discounts lowered basket value or were targeted at already smaller purchases.
 
-### 4. Make loyalty measurable at customer level
+### 4. Subscription status is not associated with higher average purchase value in this sample
 
-The project segments rows using `Previous Purchases` into New, Returning, and Loyal groups, and separately examines repeat buyers with more than five previous purchases. This is a useful first segmentation, but the available file appears to contain one record per customer rather than a transaction history. A production loyalty program should use customer-level order counts, recency, frequency, monetary value, and churn signals across multiple orders.
+Subscribers represent **1,053 records (27.0%)**, generate **$62,645 (26.9%)**, and average **$59.49** per purchase. Non-subscribers represent 2,847 records, generate **$170,436 (73.1%)**, and average **$59.87**. The **$0.38 lower** subscriber average means subscription status is not a higher-spend indicator in this dataset. Because the file does not provide subscription start dates, renewals, or repeated orders, it cannot establish whether subscription improves retention.
 
-### 5. Use subscriptions as a retention lever, not just a label
+### 5. Seasonal differences are visible but limited
 
-Only 1,053 of 3,900 records are marked as subscribed. The SQL file compares subscriber and non-subscriber average spend and total revenue, and checks subscription status among repeat buyers. The next decision is not simply whether subscribers spend more: it is whether subscription drives repeat purchasing, improves retention, and remains profitable after benefits and discounts.
+Fall has the highest average purchase value at **$61.56**, followed by Winter at **$60.36**, Spring at **$58.74**, and Summer at **$58.41**. Fall contributes **$60,018 (25.7%)** of revenue from 975 records. The seasonal revenue distribution is relatively balanced, so the difference is more meaningful as a basket-value pattern than as evidence of strong seasonal revenue concentration.
 
-### 6. Ratings are helpful directionally, with a data-quality caveat
+### 6. Shipping method shows only moderate basket differences
 
-The raw data has 37 missing review ratings. The notebook fills these values with the median rating for the corresponding category, which preserves row completeness while avoiding a single global assumption. Imputed ratings should not be used as if they were genuine customer feedback; report observed and imputed ratings separately for product-quality decisions.
+Average purchase value ranges from **$58.46 for Standard** shipping to **$60.73 for 2-Day Shipping**. Express averages **$60.48**, Free Shipping **$60.41**, Store Pickup **$59.89**, and Next Day Air **$58.63**. The $2.27 spread between the highest and lowest methods is small relative to the overall $59.76 average, and no shipping method can be judged profitable without shipping-cost data.
+
+### 7. The data supports demand analysis more strongly than customer-lifecycle analysis
+
+The `Previous Purchases` field supports the SQL script's New, Returning, and Loyal labels, but the dataset does not contain order dates or a multi-order transaction table. These labels should therefore be read as segments of records by reported prior-purchase count, not as a measured customer journey. The same limitation applies to subscription retention and repeat-buyer behavior.
+
+### 8. Review analysis requires transparent treatment of missing values
+
+The raw dataset has **37 missing `Review Rating` values**. The notebook fills them with the median rating of the corresponding category, retaining all 3,900 records while avoiding a single global imputation value. This is reasonable for exploratory completeness, but imputed ratings are not observed customer feedback and should be distinguished in any quality-focused interpretation.
 
 ## Project Flow
 
@@ -58,11 +68,22 @@ flowchart LR
 
 ## Dashboard Preview
 
-The Power BI dashboard brings the analysis together through headline KPIs, subscription and category views, age-group comparisons, and interactive filters for customer behavior exploration.
+The Power BI dashboard presents the same findings as an interactive reporting layer, with KPI cards and visual breakdowns by subscription status, category, age group, season, and customer attributes.
 
 ![Customer Shopping Behaviour Dashboard](customer_behaviour_dashboard.jpeg)
 
-Open [customer_behaviour_dashboard.jpeg](customer_behaviour_dashboard.jpeg) for the full-resolution preview, or use [customer_shopping_behavior_dashboard.pbix](customer_shopping_behavior_dashboard.pbix) to explore the report interactively in Power BI Desktop.
+View the [full-resolution dashboard preview](customer_behaviour_dashboard.jpeg) or open the [Power BI dashboard file](customer_shopping_behavior_dashboard.pbix) in Power BI Desktop.
+
+## How The Analysis Was Built
+
+The work follows a reproducible four-stage process:
+
+1. **Profile the source:** The raw CSV was loaded with pandas and inspected using structure, descriptive statistics, missing-value checks, and Sweetviz profiling. This established the 3,900-row, 18-field starting point and identified the missing review ratings.
+2. **Prepare analytical fields:** Rating gaps were filled using category medians, column names were standardized to snake case, and `age_group` and `purchase_frequency_days` were derived for segmentation and reporting.
+3. **Validate the transformation:** `Discount Applied` was compared with `Promo Code Used`; all records matched, confirming that the promo field duplicated the discount indicator. The redundant field was removed from the cleaned output, and the cleaned file was exported with 19 columns.
+4. **Analyze and communicate:** SQL queries were written around revenue, product, discount, shipping, subscription, loyalty, and age-group questions. The resulting measures are presented in the Power BI dashboard and supported by the static Sweetviz report.
+
+This approach separates **data preparation**, **descriptive analysis**, and **business interpretation**, making it possible to trace each headline finding back to the source data or a documented transformation.
 
 ## File Guide
 
@@ -74,7 +95,7 @@ Open [customer_behaviour_dashboard.jpeg](customer_behaviour_dashboard.jpeg) for 
 | [customer_shopping_behaviour.sql](customer_shopping_behaviour.sql) | Ten SQL business questions covering revenue, discounts, products, shipping, subscriptions, loyalty, and age groups. |
 | [exploratory_data_analysis_using_sweetviz.html](exploratory_data_analysis_using_sweetviz.html) | Standalone Sweetviz 2.3.3 profile of the raw dataset: distributions, missingness, associations, and correlations. |
 | [customer_shopping_behavior_dashboard.pbix](customer_shopping_behavior_dashboard.pbix) | Power BI dashboard package for interactive reporting. Open it with Power BI Desktop. |
-| [customer_behaviour_dashboard.jpeg](customer_behaviour_dashboard.jpeg) | Image preview of the Power BI dashboard, including KPI cards, filters, category visuals, and age-group comparisons. |
+| [customer_behaviour_dashboard.jpeg](customer_behaviour_dashboard.jpeg) | Static dashboard image showing the report layout, KPIs, filters, and primary visual findings. |
 | `.DS_Store` | macOS Finder metadata; not part of the analysis. It can be excluded from version control. |
 
 ## Data Preparation
@@ -113,12 +134,6 @@ The SQL script answers these business questions:
 9. Subscription status among repeat buyers
 10. Revenue contribution by age group
 
-### SQL readiness notes
-
-- **Q10 needs a small repair before execution:** the `FROM` clause is missing `customer_shopping_behaviour_cleaned`.
-- **Q7 is a row-level approximation:** it labels each record using its `previous_purchases` value; it does not aggregate a multi-order customer history.
-- **Q8 uses `ROW_NUMBER()`:** tied products can be excluded. Use `DENSE_RANK()` when ties should all be retained.
-- The queries use PostgreSQL syntax such as `::numeric`; adapt the cast and identifier syntax if running them in another database engine.
 
 ## How To Use
 
@@ -138,11 +153,7 @@ df = pd.read_csv("customer_shopping_behavior.csv")
 
 ### SQL
 
-Load `customer_shopping_behaviour_cleaned.csv` into a table named `customer_shopping_behaviour_cleaned`, then run the queries in [customer_shopping_behaviour.sql](customer_shopping_behaviour.sql). Fix Q10 before running the full script:
-
-```sql
-FROM customer_shopping_behaviour_cleaned
-```
+Load `customer_shopping_behaviour_cleaned.csv` into a table named `customer_shopping_behaviour_cleaned`, then run the queries in [customer_shopping_behaviour.sql](customer_shopping_behaviour.sql).
 
 ### Reports
 
@@ -155,13 +166,4 @@ FROM customer_shopping_behaviour_cleaned
 - The raw dataset contains 37 missing review ratings and no duplicate rows according to the Sweetviz report.
 - `age_group` is quartile-based, so its boundaries depend on this dataset and may shift when new data is added.
 - Frequency labels are mapped to approximate day counts; these are analytical estimates, not observed intervals.
-- The dataset supports descriptive analysis. It does not by itself establish campaign lift, causal discount impact, customer lifetime value, profitability, or retention over time.
-- For a stronger next version, add order timestamps, order identifiers, product cost/margin, inventory, campaign exposure, and multiple transactions per customer.
-
-## Recommended Next Analyses
-
-1. Compare category revenue, margin, discount rate, and rating together to find profitable assortment opportunities.
-2. Measure subscriber conversion and renewal by acquisition source, purchase frequency, and loyalty segment.
-3. Separate observed from imputed ratings in the dashboard.
-4. Replace row-level loyalty labels with a customer transaction table and RFM segmentation.
-5. Run controlled promotion tests to estimate incremental revenue and margin impact.
+- The analysis is intentionally descriptive. It does not establish campaign lift, causal discount impact, customer lifetime value, profitability, or retention over time.
